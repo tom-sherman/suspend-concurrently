@@ -6,7 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "react",
+    "suspense",
+    "concurrency",
+    "promise",
+    "async",
+    "await"
+  ],
   "author": "Tom Sherman",
   "license": "MIT",
   "repository": "tom-sherman/suspend-concurrently",
