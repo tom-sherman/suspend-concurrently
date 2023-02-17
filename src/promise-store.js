@@ -1,32 +1,32 @@
 import { ManyKeysWeakMap } from "many-keys-weakmap";
 
-export class PromiseStore {
-  #cache;
-  #listeners;
-  #resolveConcurrently;
-  constructor(resolveConcurrently) {
-    this.#cache = new ManyKeysWeakMap();
-    this.#listeners = new Set();
-    this.#resolveConcurrently = resolveConcurrently;
-  }
+const unresolvedPromise = new Promise(() => {});
 
-  cachePromises(promises) {
-    this.#cache.set(promises, this.#resolveConcurrently(promises));
-    this.#emitChange();
-  }
+export function createPromiseStore(resolveConcurrently) {
+  const cache = new ManyKeysWeakMap();
+  const listeners = new Set();
 
-  subscribe(listener) {
-    this.#listeners.add(listener);
-    return () => this.#listeners.delete(listener);
-  }
-
-  #emitChange() {
-    for (const listener of this.#listeners) {
+  function emitChange() {
+    console.log("emitting");
+    for (const listener of listeners) {
       listener();
     }
   }
 
-  getSnapshot(promises) {
-    return this.#cache.get(promises);
-  }
+  return {
+    cachePromises(promises) {
+      if (cache.has(promises)) return;
+      cache.set(promises, resolveConcurrently(promises));
+      emitChange();
+    },
+
+    subscribe(listener) {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+
+    getSnapshot(promises) {
+      return cache.get(promises) ?? unresolvedPromise;
+    },
+  };
 }
