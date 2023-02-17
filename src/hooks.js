@@ -4,7 +4,11 @@ import { PromiseStore } from "./promise-store";
 const hookFactory = (resolveConcurrently) => {
   const store = new PromiseStore(resolveConcurrently);
   return (promises) =>
-    useSyncExternalStore(store.subscribe, () => store.getSnapshot(promises));
+    useSyncExternalStore(
+      store.subscribe,
+      () => store.getSnapshot(promises),
+      () => store.getSnapshot(promises)
+    );
 };
 
 export const usePromiseAll = hookFactory(Promise.all);
