@@ -1,10 +1,13 @@
 import { ManyKeysWeakMap } from "many-keys-weakmap";
+import { ResolveConcurrentlyFn } from "./types";
 
 const unresolvedPromise = new Promise(() => {});
 
-export function createPromiseStore(resolveConcurrently) {
+type Listener = () => void;
+
+export function createPromiseStore(resolveConcurrently: ResolveConcurrentlyFn) {
   const cache = new ManyKeysWeakMap();
-  const listeners = new Set();
+  const listeners = new Set<Listener>();
 
   function emitChange() {
     console.log("emitting");
@@ -14,18 +17,18 @@ export function createPromiseStore(resolveConcurrently) {
   }
 
   return {
-    cachePromises(promises) {
+    cachePromises(promises: Promise<any>[]) {
       if (cache.has(promises)) return;
-      cache.set(promises, resolveConcurrently(promises));
+      cache.set(promises, (resolveConcurrently as any)(promises));
       emitChange();
     },
 
-    subscribe(listener) {
+    subscribe(listener: Listener) {
       listeners.add(listener);
       return () => listeners.delete(listener);
     },
 
-    getSnapshot(promises) {
+    getSnapshot(promises: Promise<any>[]) {
       return cache.get(promises) ?? unresolvedPromise;
     },
   };
