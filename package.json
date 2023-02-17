@@ -16,6 +16,9 @@
     "build": "microbundle",
     "dev": "microbundle watch"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "react",
     "suspense",
