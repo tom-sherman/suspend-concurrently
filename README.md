@@ -37,7 +37,6 @@ export default function UserRoute() {
           </div>
         )}
       </Await>
-      <User user={userPromise} />
     </Suspense>
   );
 }
