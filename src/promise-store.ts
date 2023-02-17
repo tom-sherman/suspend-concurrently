@@ -1,7 +1,5 @@
-import { ManyKeysWeakMap } from "many-keys-weakmap";
+import { ManyKeysWeakMap } from "./many-keys-weakmap";
 import { ResolveConcurrentlyFn } from "./types";
-
-const unresolvedPromise = new Promise(() => {});
 
 type Listener = () => void;
 
@@ -10,7 +8,6 @@ export function createPromiseStore(resolveConcurrently: ResolveConcurrentlyFn) {
   const listeners = new Set<Listener>();
 
   function emitChange() {
-    console.log("emitting");
     for (const listener of listeners) {
       listener();
     }
@@ -19,7 +16,8 @@ export function createPromiseStore(resolveConcurrently: ResolveConcurrentlyFn) {
   return {
     cachePromises(promises: Promise<any>[]) {
       if (cache.has(promises)) return;
-      cache.set(promises, (resolveConcurrently as any)(promises));
+      const cacheValue = (resolveConcurrently as any)(promises);
+      cache.set(promises, cacheValue);
       emitChange();
     },
 
@@ -29,7 +27,10 @@ export function createPromiseStore(resolveConcurrently: ResolveConcurrentlyFn) {
     },
 
     getSnapshot(promises: Promise<any>[]) {
-      return cache.get(promises) ?? unresolvedPromise;
+      const result = cache.get(promises);
+      console.log(result);
+      if (result) return result;
+      throw new Error("Promise not found in cache");
     },
   };
 }

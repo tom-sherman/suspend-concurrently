@@ -22,13 +22,13 @@ const hookFactory = (resolveConcurrently: ResolveConcurrentlyFn) => {
 
 export const usePromiseAll = hookFactory((promises: Promise<any>[]) =>
   Promise.all(promises)
-);
+) as typeof Promise.all;
 export const usePromiseAllSettled = hookFactory((promises: Promise<any>[]) =>
   Promise.allSettled(promises)
-);
+) as typeof Promise.allSettled;
 export const usePromiseAny = hookFactory((promises: Promise<any>[]) =>
   Promise.any(promises)
-);
+) as typeof Promise.any;
 export const usePromiseRace = hookFactory((promises: Promise<any>[]) =>
   Promise.race(promises)
-);
+) as typeof Promise.race;
