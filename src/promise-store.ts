@@ -28,7 +28,7 @@ export function createPromiseStore(resolveConcurrently: ResolveConcurrentlyFn) {
 
     getSnapshot(promises: Promise<any>[]) {
       const result = cache.get(promises);
-      console.log(result);
+
       if (result) return result;
       throw new Error("Promise not found in cache");
     },

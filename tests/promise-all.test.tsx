@@ -2,7 +2,8 @@ import { usePromiseAll } from "../src/index";
 import { expect, test } from "@jest/globals";
 import { Suspense } from "react";
 import { render, screen } from "@testing-library/react";
-import { Deferred, usePromise } from "./util";
+import { Deferred } from "./util";
+import { Await } from "react-router";
 
 test("resolve promise alongside usePromiseAll", async () => {
   function TestComponent({
@@ -13,9 +14,8 @@ test("resolve promise alongside usePromiseAll", async () => {
     p2: Promise<number>;
   }) {
     const promise = usePromiseAll([p1, p2]);
-    const [x, y] = usePromise(promise);
 
-    return <div>{x + y}</div>;
+    return <Await resolve={promise}>{([x, y]) => <div>{x + y}</div>}</Await>;
   }
 
   const p1 = new Deferred<number>();
@@ -41,14 +41,9 @@ test("create promise in parent", async () => {
 
     return (
       <Suspense fallback={<div>loading</div>}>
-        <Child p={promise} />
+        <Await resolve={promise}>{([x, y]) => <div>{x + y}</div>}</Await>
       </Suspense>
     );
-  }
-
-  function Child({ p }: { p: Promise<[number, number]> }) {
-    const [x, y] = usePromise(p);
-    return <div>{x + y}</div>;
   }
 
   const p1 = new Deferred<number>();
