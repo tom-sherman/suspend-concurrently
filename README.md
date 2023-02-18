@@ -25,7 +25,7 @@ export function loader() {
 
 export default function UserRoute() {
   const {deferredUserName, deferredUserAvatar} = useLoaderData();
-  const userPromise = usePromiseAll([deferredUserName, deferredUserAvatar]);
+  const userPromise = suspendAll([deferredUserName, deferredUserAvatar]);
 
   return (
     <Suspense fallback={<Loading />}>
