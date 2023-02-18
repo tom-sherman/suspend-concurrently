@@ -1,6 +1,6 @@
 {
   "name": "suspend-concurrently",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Promise concurrency primitives for React Suspense.",
   "type": "module",
   "source": "src/index.ts",
