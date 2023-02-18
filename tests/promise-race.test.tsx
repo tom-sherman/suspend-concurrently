@@ -1,4 +1,4 @@
-import { usePromiseRace } from "../src/index";
+import { suspendRace } from "../src/index";
 import { expect, test } from "@jest/globals";
 import { Suspense } from "react";
 import { render, screen } from "@testing-library/react";
@@ -7,7 +7,7 @@ import { Await } from "react-router";
 
 test("promise race", async () => {
   function Component({ p1, p2 }: { p1: Promise<number>; p2: Promise<number> }) {
-    const promise = usePromiseRace([p1, p2]);
+    const promise = suspendRace([p1, p2]);
 
     return (
       <Suspense fallback={<div>loading</div>}>

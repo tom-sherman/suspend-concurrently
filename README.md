@@ -2,12 +2,12 @@
 
 Promise concurrency primitives for React Suspense.
 
-- `usePromiseAll(promises)`
-- `usePromiseRace(promises)`
-- `usePromiseAny(promises)`
-- `usePromiseAllSettled(promises)`
+- `suspendAll(promises)`
+- `suspendRace(promises)`
+- `suspendAny(promises)`
+- `suspendAllSettled(promises)`
 
-These work just like the `Promise.all`, `Promise.race`, `Promise.any`, and `Promise.allSettled` methods, but they return a promise that resolves when all the promises in the array have resolved. See the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#promise_concurrency) for more information.
+These work just like the `Promise.all`, `Promise.race`, `Promise.any`, and `Promise.allSettled` methods, but are suitable to be used inside of React 18. See the [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise#promise_concurrency) for more information.
 
 ## Usage
 

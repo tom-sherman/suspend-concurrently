@@ -1,34 +1,28 @@
-import { useRef, useSyncExternalStore } from "react";
-import { createPromiseStore } from "./promise-store";
+import { ManyKeysWeakMap } from "./many-keys-weakmap";
 import type { ResolveConcurrentlyFn } from "./types";
 
-const hookFactory = (resolveConcurrently: ResolveConcurrentlyFn) => {
-  const store = createPromiseStore(resolveConcurrently);
+const cacheFactory = (resolveConcurrently: ResolveConcurrentlyFn) => {
+  const cache = new ManyKeysWeakMap();
 
   return (promises: Promise<any>[]) => {
-    const hasCached = useRef(false);
-    if (!hasCached.current) {
-      store.cachePromises(promises);
-      hasCached.current = true;
-    }
+    const cached = cache.get(promises);
+    if (cached) return cached;
 
-    return useSyncExternalStore(
-      store.subscribe,
-      () => store.getSnapshot(promises),
-      () => store.getSnapshot(promises)
-    );
+    const promise = (resolveConcurrently as any)(promises);
+    cache.set(promises, promise);
+    return promise;
   };
 };
 
-export const usePromiseAll = hookFactory((promises: Promise<any>[]) =>
+export const suspendAll = cacheFactory((promises: Promise<any>[]) =>
   Promise.all(promises)
 ) as typeof Promise.all;
-export const usePromiseAllSettled = hookFactory((promises: Promise<any>[]) =>
+export const suspendAllSettled = cacheFactory((promises: Promise<any>[]) =>
   Promise.allSettled(promises)
 ) as typeof Promise.allSettled;
-export const usePromiseAny = hookFactory((promises: Promise<any>[]) =>
+export const suspendAny = cacheFactory((promises: Promise<any>[]) =>
   Promise.any(promises)
 ) as typeof Promise.any;
-export const usePromiseRace = hookFactory((promises: Promise<any>[]) =>
+export const suspendRace = cacheFactory((promises: Promise<any>[]) =>
   Promise.race(promises)
 ) as typeof Promise.race;
