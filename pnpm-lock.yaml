@@ -15,15 +15,13 @@ specifiers:
   vite: ^4.1.4
   vitest: ^0.29.1
 
-dependencies:
-  many-keys-weakmap: 2.0.0
-
 devDependencies:
   '@testing-library/react': 14.0.0_biqbaboplfbrettd7655fr4n2y
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.11
   '@vitejs/plugin-react': 3.1.0_vite@4.1.4
   jsdom: 21.1.0
+  many-keys-weakmap: 2.0.0
   microbundle: 0.15.1
   prettier: 2.8.4
   react: 18.2.0
@@ -3373,7 +3371,7 @@ packages:
 
   /many-keys-weakmap/2.0.0:
     resolution: {integrity: sha512-v1x5tZNs7FdvyRawf5VFT5QvU4FJNRr0GM54j8mqk3DjNJvhWCamOl9egp04YvxWo/p93q1lANq+T1ph2dmMpg==}
-    dev: false
+    dev: true
 
   /maxmin/2.1.0:
     resolution: {integrity: sha512-NWlApBjW9az9qRPaeg7CX4sQBWwytqz32bIEo1PW9pRW+kBP9KLRfJO3UC+TV31EcQZEUq7eMzikC7zt3zPJcw==}
