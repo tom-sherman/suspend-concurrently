@@ -1,5 +1,5 @@
 import { suspendAll } from "../src/index";
-import { expect, test } from "@jest/globals";
+import { test, expect } from "vitest";
 import { Suspense, useState } from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Deferred } from "./util";
