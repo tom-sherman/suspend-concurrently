@@ -1,4 +1,4 @@
-import { ManyKeysWeakMap } from "./many-keys-weakmap";
+import ManyKeysWeakMap from "many-keys-weakmap";
 import type { ResolveConcurrentlyFn } from "./types";
 
 const cacheFactory = (resolveConcurrently: ResolveConcurrentlyFn) => {

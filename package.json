@@ -45,5 +45,8 @@
     "react-router": "^6.8.1",
     "vite": "^4.1.4",
     "vitest": "^0.29.1"
+  },
+  "dependencies": {
+    "many-keys-weakmap": "^2.0.0"
   }
 }
